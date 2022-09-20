@@ -1,27 +1,27 @@
 import React, { useState } from 'react'
 import './App.css'
 
-function makeCases(size: number): string[][] {
+const Colors = ["red", "pink", "orange", "yellow", "purple", "green", "blue", "brown", "black", "white"]
+
+function makeCases(size: number): number[][] {
   let grid = Array(size)
 
   for (let i = 0; i < size; i++) {
     grid[i] = Array(size)
     for (let j = 0; j < size; j++) {
-      grid[i][j] = "blue"
+      grid[i][j] = 9
     }
   }
   return grid
 }
 
-const Colors = ["red", "pink", "orange", "yellow", "purple", "green", "blue", "brown", "black", "white"]
-
 function App() {
-  const [grid, setGrid] = useState<string[][]>(makeCases(30))
-  const [selectedColor, setSelectedColor] = useState("black")
+  const [grid, setGrid] = useState<number[][]>(makeCases(40))
+  const [selectedColorIndex, setSelectedColorIndex] = useState(8)
 
   const drawBlock = (row: number, col: number) => {
     setGrid((grid) => {
-      grid[row][col] = selectedColor
+      grid[row][col] = selectedColorIndex
       return [...grid]
     })
   }
@@ -38,9 +38,9 @@ function App() {
           {Colors.map((color, i) => (
             <div
               key={i}
-              className={`cursor-pointer mx-1 ${selectedColor == color ? "border-2 border-white" : ""}`}
+              className={`cursor-pointer mx-1 ${selectedColorIndex == i ? "border-2 border-white" : ""}`}
               style={{height: 20, width: 20, backgroundColor: color}}
-              onClick={() => setSelectedColor(color)}
+              onClick={() => setSelectedColorIndex(i)}
             ></div>
           ))}
         </div>
@@ -49,10 +49,10 @@ function App() {
             <div
               className="flex"
               key={i}>
-              {els.map((color, j) => (
+              {els.map((colorIndex, j) => (
                 <div
                   key={j}
-                  style={{backgroundColor: color, height: "20px", width: "20px"}}
+                  style={{backgroundColor: Colors[colorIndex], height: "20px", width: "20px"}}
                   onMouseDown={(e) => handelMouseSelect(e ,i, j)}
                   onMouseOver={(e) => handelMouseSelect(e ,i, j)}
                 ></div>
